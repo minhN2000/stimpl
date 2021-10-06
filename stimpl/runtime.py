@@ -209,7 +209,7 @@ def evaluate(expression, state):
       value, value_type, new_state = evaluate(condition, state)
       
       match value_type:
-        case Boolean():
+        case Boolean(): # Runtime type Rule 8
           if value: # semantic .11
             result, value_type, new_state = evaluate(true, new_state)
           else: # semantic .11
@@ -350,14 +350,15 @@ def evaluate(expression, state):
       # not binary operator, so don't need to check for Rule 3
       
       match cond_type:
-        case Boolean():
+        case Boolean(): # Runtime type Rule 8
           while cond_value:
             result, value_type, new_state = evaluate(body, new_state)
             cond_value, cond_type, new_state = evaluate(condition, new_state) # evaluate next state/new state, then loop again
+          return (result, value_type, new_state)
         case _:
             raise InterpTypeError("Cannot perform while loop on non-boolean operands.")
 	  
-      return (result, value_type, new_state)
+      return (False, Boolean(), new_state)
       
     case _:
       raise InterpSyntaxError("Unhandled!")
