@@ -354,7 +354,6 @@ def evaluate(expression, state):
           while cond_value:
             result, value_type, new_state = evaluate(body, new_state)
             cond_value, cond_type, new_state = evaluate(condition, new_state) # evaluate next state/new state, then loop again
-          return (result, value_type, new_state)
         case _:
             raise InterpTypeError("Cannot perform while loop on non-boolean operands.")
 	  
